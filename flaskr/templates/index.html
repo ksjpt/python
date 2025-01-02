@@ -15,27 +15,27 @@
     </form>
     </h2>
     <h2>商品一覧</h2>
-      {% if items == [] %}
-        <p>該当する商品情報はありません。</p>
-      {% else %}
-        <table border="1">
+    {% if items == [] %}
+      <p>該当する商品情報はありません。</p>
+    {% else %}
+      <table border="1">
+        <tr>
+          <th width="200">商品コード</th>
+          <th width="500">タイトル</th>
+          <th width="150">金額</th>
+          <th width="120">ポイント倍付け</th>
+          <th width="200">店名</th>
+        </tr>
+        {% for item in items %}
           <tr>
-            <th width="200">商品コード</th>
-            <th width="500">タイトル</th>
-            <th width="150">金額</th>
-            <th width="100">ポイント倍付け</th>
-            <th width="200">店名</th>
+            <td align="right">{{ item.code }}</td>
+            <td><a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.name }}</a></td>
+            <td align="right">{{ item.price }}円</td>
+            <td align="right">{{ item.point }}倍</td>
+            <td>{{ item.shop }}</td>
           </tr>
-          {% for item in items %}
-            <tr>
-              <td align="right">{{ item.code }}</td>
-              <td><a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.name }}</a></td>
-              <td align="right">{{ item.price }}円</td>
-              <td align="right">{{ item.point }}倍</td>
-              <td>{{ item.shop }}</td>
-            </tr>
-          {% endfor %}
-        </table>
-      {% endif %}
+        {% endfor %}
+      </table>
+    {% endif %}
   </body>
 </html>
