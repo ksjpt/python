@@ -2,16 +2,19 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-    <title>ksjptアプリ</title>
+    <title>楽天情報アプリ</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
     <h1>楽天商品情報</h1>
     <h2>
-    <form method="post" action="{{ url_for('search') }}">
+    <form method="post" action="?">
       商品キーワード：
-      <input type="text" name="keyword">
-      <input type="submit" value="検索">
+      <input type="text" name="keyword" />
+      <button type="submit" name="_method" value="search"
+        formaction="{{ url_for('search') }}">検索</button>
+      <button type="submit" name="_method" value="download" 
+        formaction="{{ url_for('download') }}">ダウンロード</button>
     </form>
     </h2>
     <h2>商品一覧</h2>
