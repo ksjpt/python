@@ -3,32 +3,62 @@
   <head>
     <meta charset="UTF-8">
     <title>楽天情報アプリ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+    </style>
   </head>
-  <body>
-    <h1>楽天商品情報</h1>
-    <h2>
+  <body class="bg-success-subtle">
+    <h5 class="p-3 mb-2 bg-success text-white">楽天商品情報</h5>
     <form method="post" action="?">
-      商品キーワード：
-      <input type="text" name="keyword" />
-      <button type="submit" name="_method" value="search"
-        formaction="{{ url_for('search') }}">検索</button>
-      <button type="submit" name="_method" value="download" 
-        formaction="{{ url_for('download') }}">ダウンロード</button>
+      <div class="container-xxl">
+        <div class="mb-3"></div>
+        <div class="mb-3">
+          <label class="form-label">商品キーワード：</label>
+          <input type="text" name="keyword"  class="form-control keyword"
+            placeholder="島津製作所" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">並び替え：</label>
+          <select name="sort" class="form-select width-select">
+            <option value="standard" selected>標準ソート順</option>
+            <option value="+itemPrice">価格順（昇順）</option>
+            <option value="-itemPrice">価格順（降順）</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">商品価格：</label>
+          <input type="number" name="minPrice" autocomplete="off" 
+            maxlength="9" class="form-control price" placeholder="100" />
+          ～
+          <input type="number" name="maxPrice" autocomplete="off" 
+            maxlength="9" class="form-control price" placeholder="1000000" />
+        </div>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-primary " name="_method" value="search"
+            formaction="{{ url_for('search') }}">検索</button>　
+          <button type="submit"  class="btn btn-info " name="_method" value="download" 
+            formaction="{{ url_for('download') }}">ダウンロード</button>
+        </div>
+      </div>
     </form>
-    </h2>
-    <h2>商品一覧</h2>
+    <hr>
+    <h5 class="p-3 mb-2 bg-success text-white">商品一覧</h5>
     {% if items == [] %}
       <p>該当する商品情報はありません。</p>
     {% else %}
-      <table border="1">
-        <tr>
-          <th width="200">商品コード</th>
-          <th width="500">タイトル</th>
-          <th width="150">金額</th>
-          <th width="120">ポイント倍付け</th>
-          <th width="200">店名</th>
-        </tr>
+      <table class="table table-striped table-light">
+        <thead>
+          <tr>
+            <th width="200">商品コード</th>
+            <th width="500">タイトル</th>
+            <th width="150">金額</th>
+            <th width="120">ポイント倍付け</th>
+            <th width="200">店名</th>
+          </tr>
+        </thead>
+        <tbody>
         {% for item in items %}
           <tr>
             <td align="right">{{ item.code }}</td>
@@ -38,6 +68,7 @@
             <td>{{ item.shop }}</td>
           </tr>
         {% endfor %}
+        </tbody>
       </table>
     {% endif %}
   </body>

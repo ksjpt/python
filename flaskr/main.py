@@ -33,9 +33,14 @@ def search():
       'index.html',
       items=items
     )
+    
+  # その他入力値
+  SORT = request.form['sort']
+  MINPRICE = request.form['minPrice']
+  MAXPRICE = request.form['maxPrice']
 
   # 楽天データ取得
-  r_json = get_rakudata(KEYWORD, APP_ID)
+  r_json = get_rakudata(APP_ID, KEYWORD, SORT, MINPRICE, MAXPRICE)
   
   items = []
   item = {}
@@ -73,9 +78,14 @@ def download():
       'index.html',
       items=items
     )
+    
+  # その他入力値
+  SORT = request.form['sort']
+  MINPRICE = request.form['minPrice']
+  MAXPRICE = request.form['maxPrice']
 
   # 楽天データ取得
-  r_json = get_rakudata(KEYWORD, APP_ID)
+  r_json = get_rakudata(APP_ID, KEYWORD, SORT, MINPRICE, MAXPRICE)
 
   # 出力先ストリームの設定
   output = BytesIO()
@@ -118,17 +128,6 @@ def download():
 
 # INIファイル取得  
 def get_value(section, key):
-    """
-    指定されたセクションとキーに対応するINIファイルの値を取得する。
-
-    Args:
-        section (str): セクション名
-        key (str): キー名
-
-    Returns:
-        str: セクションとキーに対応するINIファイルの値
-    """
-    
     # ConfigParserオブジェクトを生成する
     config = configparser.ConfigParser()
     
@@ -139,7 +138,7 @@ def get_value(section, key):
     return config[section][key]
 
 # 楽天データ取得
-def get_rakudata(keyword, app_id):
+def get_rakudata(app_id, keyword, sort, minprice, maxprice):
   # URL
   url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"
 
@@ -147,9 +146,11 @@ def get_rakudata(keyword, app_id):
   payload = {
     "keyword":keyword,
     "applicationId":app_id,
-    "hits":10,
+    "hits":20,
     "page":1,
-    "sort":"-itemPrice",
+    "minPrice":minprice,
+    "maxPrice":maxprice,
+    "sort":sort,
     "postageFlag":1 #送料込み
   }
 
