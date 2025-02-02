@@ -17,23 +17,25 @@
         <div class="mb-3">
           <label class="form-label">商品キーワード：</label>
           <input type="text" name="keyword"  class="form-control keyword"
-            placeholder="島津製作所" />
+            value="{{d_param['keyword']}}" />
         </div>
         <div class="mb-3">
           <label class="form-label">並び替え：</label>
           <select name="sort" class="form-select width-select">
-            <option value="standard" selected>標準ソート順</option>
-            <option value="+itemPrice">価格順（昇順）</option>
-            <option value="-itemPrice">価格順（降順）</option>
+            <option value="standard" {% if d_param['sort'] == 'standard' %} selected {% endif %} >標準ソート順</option>
+            <option value="+itemPrice" {% if d_param['sort'] == '+itemPrice' %} selected {% endif %} >価格順（昇順）</option>
+            <option value="-itemPrice" {% if d_param['sort'] == '-itemPrice' %} selected {% endif %} >価格順（降順）</option>
           </select>
         </div>
         <div class="mb-3">
           <label class="form-label">商品価格：</label>
           <input type="number" name="minPrice" autocomplete="off" 
-            maxlength="9" class="form-control price" placeholder="100" />
+            maxlength="9" class="form-control price" 
+            value="{{d_param['minPrice']}}" />
           ～
           <input type="number" name="maxPrice" autocomplete="off" 
-            maxlength="9" class="form-control price" placeholder="1000000" />
+            maxlength="9" class="form-control price"
+            value="{{d_param['maxPrice']}}" />
         </div>
         <div class="mb-3">
           <button type="submit" class="btn btn-primary " name="_method" value="search"

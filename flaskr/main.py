@@ -13,19 +13,22 @@ INI_FILE_NAME = 'config.ini'
 @app.route('/')
 def index():
   items = []
+  d_param = {}
   return render_template(
     'index.html',
-    items=items
+    items=items,
+    d_param=d_param
   )
   
 @app.route('/search', methods={'POST'})
 def search():
+  d_param = {}
   #ID 設定
-  APP_ID = get_value('DEFAULT', 'apikey')
+  d_param['app_id'] = get_value('DEFAULT', 'apikey')
 
   #検索キーワード
   if request.form['keyword'] != "":
-    KEYWORD = request.form['keyword']
+    d_param['keyword'] = request.form['keyword']
   else:
     #設定なければ、ゼロ件設定し画面に戻る
     items = []
@@ -35,12 +38,12 @@ def search():
     )
     
   # その他入力値
-  SORT = request.form['sort']
-  MINPRICE = request.form['minPrice']
-  MAXPRICE = request.form['maxPrice']
+  d_param['sort'] = request.form['sort']
+  d_param['minPrice'] = request.form['minPrice']
+  d_param['maxPrice'] = request.form['maxPrice']
 
   # 楽天データ取得
-  r_json = get_rakudata(APP_ID, KEYWORD, SORT, MINPRICE, MAXPRICE)
+  r_json = get_rakudata(d_param)
   
   items = []
   item = {}
@@ -59,18 +62,20 @@ def search():
 
   return render_template(
     'index.html',
-    items=items
+    items=items,
+    d_param=d_param
   )
 
 # ダウンロード機能
 @app.route('/download', methods={'POST'})
 def download():
+  d_param = {}
   #ID 設定
-  APP_ID = get_value('DEFAULT', 'apikey')
+  d_param['app_id'] = get_value('DEFAULT', 'apikey')
 
   #検索キーワード
   if request.form['keyword'] != "":
-    KEYWORD = request.form['keyword']
+    d_param['keyword'] = request.form['keyword']
   else:
     #設定なければ、ゼロ件設定し画面に戻る
     items = []
@@ -80,12 +85,12 @@ def download():
     )
     
   # その他入力値
-  SORT = request.form['sort']
-  MINPRICE = request.form['minPrice']
-  MAXPRICE = request.form['maxPrice']
+  d_param['sort'] = request.form['sort']
+  d_param['minPrice'] = request.form['minPrice']
+  d_param['maxPrice'] = request.form['maxPrice']
 
   # 楽天データ取得
-  r_json = get_rakudata(APP_ID, KEYWORD, SORT, MINPRICE, MAXPRICE)
+  r_json = get_rakudata(d_param)
 
   # 出力先ストリームの設定
   output = BytesIO()
@@ -138,19 +143,19 @@ def get_value(section, key):
     return config[section][key]
 
 # 楽天データ取得
-def get_rakudata(app_id, keyword, sort, minprice, maxprice):
+def get_rakudata(d_param):
   # URL
   url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"
 
   # パラメータ設定
   payload = {
-    "keyword":keyword,
-    "applicationId":app_id,
+    "keyword":d_param['keyword'],
+    "applicationId":d_param['app_id'],
     "hits":20,
     "page":1,
-    "minPrice":minprice,
-    "maxPrice":maxprice,
-    "sort":sort,
+    "minPrice":d_param['minPrice'],
+    "maxPrice":d_param['maxPrice'],
+    "sort":d_param['sort'],
     "postageFlag":1 #送料込み
   }
 
