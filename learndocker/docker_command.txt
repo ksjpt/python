@@ -1,0 +1,46 @@
+# docker mysqlコンテナ生成＆起動
+docker run --name ksjpt-mysql -p 13306:3306 -e MYSQL_ROOT_PASSWORD=sati5108 -d mysql
+docker exec -it ksjpt-mysql bash
+
+#mysql実行
+mysql -u root -p
+
+#docker内のmysql停止
+docker stop ksjpt-mysql
+
+docker ps -a
+
+# docker mysqlコンテナ起動
+docker start ksjpt-mysql
+
+#docker内のmysql停止
+docker stop ksjpt-mysql
+
+#コンテナの削除
+docker rm ksjpt-mysql
+
+#イメージの削除
+docker rmi mysql:latest
+
+#イメージの確認
+docker images
+
+
+# Dockerfileのビルド
+cd C:\work_space\python\learndocker
+docker build -t ksjpt-python:1.0 .
+
+# Dockerfileの起動
+docker run --name ksjpt-server -it -d ksjpt-python:1.0
+
+docker exec -it ksjpt-server bash
+
+#Pythonの実行
+python3.9
+import pandas as pd
+
+# Dockerfileのビルド２
+docker build -t ksjpt-python:1.1 .
+
+# docker Pythonコンテナ起動
+docker run --name ksjpt-server-2 ksjpt-python:1.1
