@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>カケギの日記</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'diary/css/base.css' %}">
+    <script src="{% static 'diary/js/base.js' %}"></script>
+</head>
+<body>
+    <h1><a href="{% url 'diary:index' %}">カケギの日記</a></h1>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

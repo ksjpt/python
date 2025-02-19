@@ -4,3 +4,4 @@ src/
 .vscode/
 flaskr/__pycache__
 config.ini
+learndocker/

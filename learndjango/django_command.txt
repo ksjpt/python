@@ -1,0 +1,12 @@
+# Djangoアプリの実行
+cd C:\work_space\python\learndjango
+python manage.py runserver
+
+#管理者画面よりユーザー登録
+http://127.0.0.1:8000/admin
+
+#ログイン画面よりログイン
+http://127.0.0.1:8000/login
+
+#日記が表示される
+http://127.0.0.1:8000/diary/
