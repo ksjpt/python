@@ -34,7 +34,8 @@ def search():
     items = []
     return render_template(
       'index.html',
-      items=items
+      items=items,
+      d_param=d_param
     )
     
   # その他入力値
@@ -81,7 +82,8 @@ def download():
     items = []
     return render_template(
       'index.html',
-      items=items
+      items=items,
+      d_param=d_param
     )
     
   # その他入力値
